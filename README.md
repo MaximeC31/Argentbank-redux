@@ -1,0 +1,1 @@
+Ce projet est une interface bancaire que j'ai développé avec React/Redux, proposant une gestion de profil utilisateur et des transactions sécurisées via des appels API. Il démontre une maîtrise de React/Redux pour la gestion d'état global, et l'intégration avec une API.
