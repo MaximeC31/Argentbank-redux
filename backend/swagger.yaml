@@ -70,14 +70,14 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
-          # 'type: string' n'est pas ajouté ici car absent de la base originale
+          type: string
       produces:
         - application/json
       responses:
         "200":
           description: User profile retrieved successully
           schema:
-            $ref: "#/definitions/ApiResponse" # Reste tel quel (base originale)
+            $ref: "#/definitions/ApiResponse"
         "400":
           description: Invalid Fields
         "500":
@@ -93,22 +93,21 @@ paths:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
-          required:
-            true
-            # 'type: string' n'est pas ajouté ici car absent de la base originale
+          required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
           required: true
           schema:
-            $ref: "#/definitions/UserProfile" # Reste tel quel (base originale)
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
         "200":
           description: User profile retrieved successully
           schema:
-            $ref: "#/definitions/ApiResponse" # Reste tel quel (base originale)
+            $ref: "#/definitions/ApiResponse"
         "400":
           description: Invalid Fields
         "500":
@@ -197,7 +196,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-  /transaction/{transactionId}:
+  /transaction/{accountId}/{transactionId}:
     post:
       security:
         - Bearer: []
@@ -218,7 +217,7 @@ paths:
           type: string
         - name: accountId
           in: path
-          description: The ID of the account transactions for.
+          description: The ID of the account to fetch transactions for.
           required: true
           type: string
         - name: type
@@ -253,6 +252,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
     patch:
       security:
         - Bearer: []
