@@ -138,6 +138,10 @@ paths:
           description: Unauthorized
           schema:
             $ref: "#/definitions/ErrorResponse"
+        "404":
+          description: Account not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         "500":
           description: Internal Server Error
           schema:
