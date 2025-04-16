@@ -114,7 +114,7 @@ paths:
           description: Internal Server Error
 
   /account:
-    post:
+    get:
       security:
         - Bearer: []
       tags:
@@ -148,13 +148,13 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /transaction/{accountId}:
-    post:
+    get:
       security:
         - Bearer: []
       tags:
         - Transaction Module
       summary: Account Transactions
-      description: API to fetch transactions for a specific account belonging to the logged-in user. Can optionally group results by month.
+      description: API to fetch transactions for a specific account belonging to the logged-in user.
       parameters:
         - name: Authorization
           in: header
@@ -166,12 +166,6 @@ paths:
           description: The ID of the account to fetch transactions for.
           required: true
           type: string
-        - name: filterPerMonth
-          in: query
-          description: Set to true to group transactions by month.
-          required: false
-          type: boolean
-          default: false
       produces:
         - application/json
       responses:
@@ -192,7 +186,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
         "404":
-          description: Account not found or no transactions found
+          description: Account not found
           schema:
             $ref: "#/definitions/ErrorResponse"
         "500":
@@ -201,7 +195,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
 
   /transaction/{accountId}/{transactionId}:
-    post:
+    get:
       security:
         - Bearer: []
       tags:
