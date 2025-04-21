@@ -131,21 +131,26 @@ paths:
         - application/json
       responses:
         "200":
-          description: User accounts retrieved successfully.
+          description: Successful connection
           schema:
             $ref: "#/definitions/ApiResponseAccountList"
+          examples:
+            application/json:
+              status: 200
+              message: "string"
+              body:
+                - accountId: "acc_checking_8349"
+                  title: "Argent Bank Checking (x8349)"
+                  balance: 2082.79
+                  description: "Available Balance"
+        "400":
+          description: Invalid request
         "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Authentication failed
         "404":
-          description: Account not found
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Not found
         "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Internal server error
 
   /transaction/{accountId}:
     get:
@@ -173,26 +178,28 @@ paths:
           description: Transactions retrieved successfully.
           schema:
             $ref: "#/definitions/ApiResponseTransactionList"
+          examples:
+            application/json:
+              status: 200
+              message: "string"
+              body:
+                - transactionId: "tx_12345abc"
+                  accountId: "acc_checking_8349"
+                  date: "2023-10-26"
+                  description: "Coffee Shop Purchase"
+                  amount: -5.75
+                  balance: 2077.04
+                  type: "Electronic Payment"
+                  category: "Food & Dining"
+                  notes: "Morning coffee"
         "400":
-          description: Bad Request (e.g., invalid accountId)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Invalid request
         "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        "403":
-          description: Forbidden (User does not own this account)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Authentication failed
         "404":
-          description: Account not found
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Not found
         "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Internal server error
 
   /transaction/{accountId}/{transactionId}:
     get:
@@ -218,11 +225,6 @@ paths:
           description: The ID of the account to fetch transactions for.
           required: true
           type: string
-        - name: type
-          in: query
-          description: Optional transaction type filter.
-          required: false
-          type: string
       produces:
         - application/json
       responses:
@@ -230,26 +232,30 @@ paths:
           description: Transaction details retrieved successfully.
           schema:
             $ref: "#/definitions/ApiResponseTransactionDetail"
+          examples:
+            application/json:
+              status: 200
+              message: "string"
+              body:
+                id: "string"
+                email: "string"
+                transactionId: "tx_12345abc"
+                accountId: "acc_checking_8349"
+                date: "2023-10-26"
+                description: "Coffee Shop Purchase"
+                amount: -5.75
+                balance: 2077.04
+                type: "Electronic Payment"
+                category: "Food & Dining"
+                notes: "Morning coffee"
         "400":
-          description: Bad Request (e.g., invalid type filter)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Invalid request
         "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        "403":
-          description: Forbidden (User cannot view this transaction)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Authentication failed
         "404":
-          description: Transaction not found
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Not found
         "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Internal server error
 
     patch:
       security:
@@ -287,44 +293,30 @@ paths:
           description: Transaction updated successfully.
           schema:
             $ref: "#/definitions/ApiResponseTransactionDetail"
+          examples:
+            application/json:
+              status: 200
+              message: "string"
+              body:
+                id: "string"
+                email: "string"
+                transactionId: "tx_12345abc"
+                accountId: "acc_checking_8349"
+                date: "2023-10-26"
+                description: "Coffee Shop Purchase"
+                amount: -5.75
+                balance: 2077.04
+                type: "Electronic Payment"
+                category: "Food & Dining"
+                notes: "Morning coffee"
         "400":
-          description: Bad Request (e.g., invalid payload fields)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Invalid request
         "401":
-          description: Unauthorized
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        "403":
-          description: Forbidden (User cannot modify this transaction)
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Authentication failed
         "404":
-          description: Transaction not found
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Not found
         "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
-  /transaction/types:
-    get:
-      tags:
-        - Transaction Module
-      summary: Transaction Types
-      description: API to retrieve the list of all possible transaction types.
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: Transaction types retrieved successfully.
-          schema:
-            $ref: "#/definitions/ApiResponseTransactionTypes"
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+          description: Internal server error
 
 securityDefinitions:
   Bearer:
@@ -486,18 +478,6 @@ definitions:
         properties:
           body:
             $ref: "#/definitions/Transaction"
-
-  ApiResponseTransactionTypes:
-    allOf:
-      - $ref: "#/definitions/ApiResponse"
-      - type: object
-        properties:
-          body:
-            type: array
-            description: List of available transaction types.
-            items:
-              type: string
-            example: ["Electronic Payment", "Deposit", "Withdrawal"]
 
   ErrorResponse:
     type: object
